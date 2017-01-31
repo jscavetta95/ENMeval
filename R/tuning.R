@@ -148,13 +148,17 @@ tuning <- function (occ, env, bg.coords, occ.grp, bg.grp, method, maxent.args,
 
   # get training AUCs for each model
   full.AUC <- double()
-  for (i in 1:length(full.mods)) full.AUC[i] <- full.mods[[i]]@results[5]
+  boyce <- double()
+  for (i in 1:length(full.mods)) {
+    full.AUC[i] <- full.mods[[i]]@results[5]
+    if (boyce) boyce[i] <- ecospat.boyce(predictive.maps[[i]], as.data.frame(occ))$Spearman.cor
+  }
   # get total number of parameters
   nparm <- numeric()
   for (i in 1:length(full.mods)) nparm[i] <- get.params(full.mods[[i]])
 #  if (rasterPreds==TRUE) { # this should now work even if rasterPreds==F
     aicc <- calc.aicc(nparm, occ, predictive.maps)
-    boyce <- ecospat.boyce(predictive.maps, as.data.frame(occ))$Spearman.cor
+    
 #  } else {
 #    aicc <- rep(NaN, length(full.AUC))
 #  }
@@ -165,7 +169,8 @@ tuning <- function (occ, env, bg.coords, occ.grp, bg.grp, method, maxent.args,
 
   res <- data.frame(settings, features, rm, full.AUC, Mean.AUC,
                     Var.AUC, Mean.AUC.DIFF, Var.AUC.DIFF, Mean.OR10, Var.OR10,
-                    Mean.ORmin, Var.ORmin, aicc, boyce)
+                    Mean.ORmin, Var.ORmin, aicc)
+  if (boyce) res <- cbind(res, boyce)
   if (bin.output == TRUE) {
     res <- as.data.frame(cbind(res, AUC.TEST, AUC.DIFF, OR10, ORmin))
   }
