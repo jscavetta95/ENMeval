@@ -8,6 +8,6 @@ Maintainer: Robert Muscarella <bob.muscarella@gmail.com>
 Description: Automatically partitions data into evaluation bins, executes ecological niche models across a range of settings, and calculates a variety of evaluation statistics.  Current version only implements ENMs with Maxent (Phillips et al. 2006)<doi:10.1016/j.ecolmodel.2005.03.026>.
 License: GPL
 Depends: dismo, methods, rJava (>= 0.5-0), parallel, R (>= 2.10)
-Imports: doParallel, foreach, utils, graphics, stats, grDevices, raster
+Imports: doParallel, foreach, utils, graphics, stats, grDevices, raster, ecospat
 Suggests: knitr, rmarkdown, spocc, maptools, rgeos
 VignetteBuilder: knitr
