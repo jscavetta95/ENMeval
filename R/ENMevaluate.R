@@ -41,7 +41,7 @@ ENMevaluate <- function (occ, env, bg.coords = NULL, occ.grp = NULL, bg.grp = NU
                                              ifelse(method == "user", "Doing user-defined evaluation groups...",
                                                     "Error: You need to specify an accepted evaluation method. Check the documentation.")))))))
   results <- tuning(occ, env, bg.coords, occ.grp, bg.grp, method,
-                    maxent.args, args.lab, categoricals, aggregation.factor,
+                    maxent.args, args.lab, categoricals, boyce, aggregation.factor,
                     kfolds, bin.output, clamp, rasterPreds, parallel, 
                     numCores, progbar, updateProgress, userArgs)
   if (overlap == TRUE) {
