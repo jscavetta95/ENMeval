@@ -148,10 +148,10 @@ tuning <- function (occ, env, bg.coords, occ.grp, bg.grp, method, maxent.args,
 
   # get training AUCs for each model
   full.AUC <- double()
-  boyce <- double()
+  all.boyce <- double()
   for (i in 1:length(full.mods)) {
     full.AUC[i] <- full.mods[[i]]@results[5]
-    if (boyce) boyce[i] <- ecospat.boyce(predictive.maps[[i]], as.data.frame(occ))$Spearman.cor
+    if (boyce) all.boyce[i] <- ecospat.boyce(predictive.maps[[i]], as.data.frame(occ))$Spearman.cor
   }
   # get total number of parameters
   nparm <- numeric()
@@ -170,7 +170,7 @@ tuning <- function (occ, env, bg.coords, occ.grp, bg.grp, method, maxent.args,
   res <- data.frame(settings, features, rm, full.AUC, Mean.AUC,
                     Var.AUC, Mean.AUC.DIFF, Var.AUC.DIFF, Mean.OR10, Var.OR10,
                     Mean.ORmin, Var.ORmin, aicc)
-  if (boyce) res <- cbind(res, boyce)
+  if (boyce) res <- cbind(res, all.boyce)
   if (bin.output == TRUE) {
     res <- as.data.frame(cbind(res, AUC.TEST, AUC.DIFF, OR10, ORmin))
   }
