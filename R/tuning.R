@@ -5,7 +5,7 @@
 # INPUT ARGUMENTS COME FROM WRAPPER FUNCTION
 
 tuning <- function (occ, env, bg.coords, occ.grp, bg.grp, method, maxent.args,
-                    args.lab, categoricals, aggregation.factor, kfolds, bin.output,
+                    args.lab, categoricals, boyce, aggregation.factor, kfolds, bin.output,
                     clamp, rasterPreds, parallel, numCores, progbar, updateProgress,
                     userArgs) {
 
