@@ -41,7 +41,10 @@ modelTune.maxentJar <- function(pres, bg, env, nk, group.data, args.i, userArgs,
     # run the current test model
     mod <- dismo::maxent(x, p, args = c(args.i, userArgs), factors = categoricals)  
     
-    AUC.TEST[k] <- dismo::evaluate(test.val, bg, mod)@auc
+    eval <- dismo::evaluate(test.val, bg, mod)
+    KAPPA[k] <- threshold(eval)$kappa
+    
+    AUC.TEST[k] <- eval@auc
     AUC.DIFF[k] <- max(0, dismo::evaluate(train.val, bg, mod)@auc - AUC.TEST[k])
     
     # predict values for training and testing data
@@ -59,7 +62,7 @@ modelTune.maxentJar <- function(pres, bg, env, nk, group.data, args.i, userArgs,
     train.thr.min <- min(p.train)
     ORmin[k] <- mean(p.test < train.thr.min)
   }
-  stats <- c(AUC.DIFF, AUC.TEST, OR10, ORmin)
+  stats <- c(AUC.DIFF, AUC.TEST, OR10, ORmin, KAPPA)
   out.i <- list(full.mod, stats, predictive.map)
   return(out.i)
 }

@@ -141,6 +141,9 @@ tuning <- function (occ, env, bg.coords, occ.grp, bg.grp, method, algorithm, arg
   AUC.TEST <- statsTbl[,(nk+1):(2*nk)]
   OR10 <- statsTbl[,((2*nk)+1):(3*nk)]
   ORmin <- statsTbl[,((3*nk)+1):(4*nk)]
+  KAPPA <- statsTbl[,((4*nk)+1):(5*nk)]
+  
+  
   # rename column fields
   names(AUC.DIFF) <- paste("diff.AUC_bin", 1:nk, sep = ".")
   Mean.AUC.DIFF <- rowMeans(AUC.DIFF)
@@ -154,6 +157,10 @@ tuning <- function (occ, env, bg.coords, occ.grp, bg.grp, method, algorithm, arg
   names(ORmin) <- paste("test.orMTP_bin", 1:nk, sep = ".")
   Mean.ORmin <- rowMeans(ORmin)
   Var.ORmin <- apply(ORmin, 1, var)
+  
+  names(KAPPA) <- paste("test.KAPPA_bin", 1:nk, sep = ".")
+  Mean.KAPPA <- rowMeans(KAPPA)
+  Var.KAPPA <- apply(KAPPA, 1, var)
 
   # get training AUCs for each model
   full.AUC <- double()
@@ -190,9 +197,10 @@ tuning <- function (occ, env, bg.coords, occ.grp, bg.grp, method, algorithm, arg
                     avg.test.AUC = Mean.AUC, var.test.AUC = Var.AUC,
                     avg.diff.AUC = Mean.AUC.DIFF, var.diff.AUC = Var.AUC.DIFF,
                     avg.test.orMTP = Mean.ORmin, var.test.orMTP = Var.ORmin,
-                    avg.test.or10pct = Mean.OR10, var.test.or10pct = Var.OR10, aicc)
+                    avg.test.or10pct = Mean.OR10, var.test.or10pct = Var.OR10, aicc,
+                    avg.text.kappa = Mean.KAPPA, var.test.kappa = Var.KAPPA)
   if (bin.output == TRUE) {
-    res <- as.data.frame(cbind(res, AUC.TEST, AUC.DIFF, OR10, ORmin))
+    res <- as.data.frame(cbind(res, AUC.TEST, AUC.DIFF, OR10, ORmin, KAPPA))
   }
 
   if (rasterPreds==TRUE) {
