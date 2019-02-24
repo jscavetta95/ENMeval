@@ -198,7 +198,7 @@ tuning <- function (occ, env, bg.coords, occ.grp, bg.grp, method, algorithm, arg
                     avg.diff.AUC = Mean.AUC.DIFF, var.diff.AUC = Var.AUC.DIFF,
                     avg.test.orMTP = Mean.ORmin, var.test.orMTP = Var.ORmin,
                     avg.test.or10pct = Mean.OR10, var.test.or10pct = Var.OR10, aicc,
-                    avg.text.kappa = Mean.KAPPA, var.test.kappa = Var.KAPPA)
+                    avg.test.kappa = Mean.KAPPA, var.test.kappa = Var.KAPPA)
   if (bin.output == TRUE) {
     res <- as.data.frame(cbind(res, AUC.TEST, AUC.DIFF, OR10, ORmin, KAPPA))
   }
