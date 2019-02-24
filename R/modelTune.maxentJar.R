@@ -27,6 +27,7 @@ modelTune.maxentJar <- function(pres, bg, env, nk, group.data, args.i, userArgs,
   AUC.DIFF <- double()
   OR10 <- double()
   ORmin <- double()
+  KAPPA <- double()
   
   # cross-validation on partitions
   for (k in 1:nk) {
