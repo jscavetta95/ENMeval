@@ -28,6 +28,7 @@ modelTune.maxentJar <- function(pres, bg, env, nk, group.data, args.i, userArgs,
   OR10 <- double()
   ORmin <- double()
   KAPPA <- double()
+  MAX.F1 <- double()
   
   # cross-validation on partitions
   for (k in 1:nk) {
@@ -41,12 +42,15 @@ modelTune.maxentJar <- function(pres, bg, env, nk, group.data, args.i, userArgs,
     
     # run the current test model
     mod <- dismo::maxent(x, p, args = c(args.i, userArgs), factors = categoricals)  
-    
     eval <- dismo::evaluate(test.val, bg, mod)
-    KAPPA[k] <- threshold(eval)$kappa
     
+    recall <- eval@TPR
+    precision <- eval@confusion[,1]/(eval@confusion[,1]+eval@confusion[,2])
+    
+    MAX.F1[k] <- max(2*((precision*recall)/(precision+recall)), na.rm = TRUE)
     AUC.TEST[k] <- eval@auc
-    AUC.DIFF[k] <- max(0, dismo::evaluate(train.val, bg, mod)@auc - AUC.TEST[k])
+    AUC.DIFF[k] <- max(0, eval@auc - AUC.TEST[k])
+    KAPPA[k] <- threshold(eval)$kappa
     
     # predict values for training and testing data
     p.train <- predict(mod, train.val, args = pred.args)
@@ -63,7 +67,7 @@ modelTune.maxentJar <- function(pres, bg, env, nk, group.data, args.i, userArgs,
     train.thr.min <- min(p.train)
     ORmin[k] <- mean(p.test < train.thr.min)
   }
-  stats <- c(AUC.DIFF, AUC.TEST, OR10, ORmin, KAPPA)
+  stats <- c(AUC.DIFF, AUC.TEST, OR10, ORmin, KAPPA, MAX.F1)
   out.i <- list(full.mod, stats, predictive.map)
   return(out.i)
 }

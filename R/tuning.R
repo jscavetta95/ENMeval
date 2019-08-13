@@ -142,18 +142,22 @@ tuning <- function (occ, env, bg.coords, occ.grp, bg.grp, method, algorithm, arg
   OR10 <- statsTbl[,((2*nk)+1):(3*nk)]
   ORmin <- statsTbl[,((3*nk)+1):(4*nk)]
   KAPPA <- statsTbl[,((4*nk)+1):(5*nk)]
+  MAX.F1 <- statsTbl[,((5*nk)+1):(6*nk)]
   
   
   # rename column fields
   names(AUC.DIFF) <- paste("diff.AUC_bin", 1:nk, sep = ".")
   Mean.AUC.DIFF <- rowMeans(AUC.DIFF)
   Var.AUC.DIFF <- corrected.var(AUC.DIFF, nk)
+  
   names(AUC.TEST) <- paste("AUC_bin", 1:nk, sep = ".")
   Mean.AUC <- rowMeans(AUC.TEST)
   Var.AUC <- corrected.var(AUC.TEST, nk)
+  
   names(OR10) <- paste("test.or10pct_bin", 1:nk, sep = ".")
   Mean.OR10 <- rowMeans(OR10)
   Var.OR10 <- apply(OR10, 1, var)
+  
   names(ORmin) <- paste("test.orMTP_bin", 1:nk, sep = ".")
   Mean.ORmin <- rowMeans(ORmin)
   Var.ORmin <- apply(ORmin, 1, var)
@@ -161,6 +165,10 @@ tuning <- function (occ, env, bg.coords, occ.grp, bg.grp, method, algorithm, arg
   names(KAPPA) <- paste("test.KAPPA_bin", 1:nk, sep = ".")
   Mean.KAPPA <- rowMeans(KAPPA)
   Var.KAPPA <- apply(KAPPA, 1, var)
+  
+  names(MAX.F1) <- paste("test.MAX.F1_bin", 1:nk, sep = ".")
+  Mean.MAX.F1 <- rowMeans(MAX.F1)
+  Var.MAX.F1 <- apply(MAX.F1, 1, var)
 
   # get training AUCs for each model
   full.AUC <- double()
@@ -198,9 +206,10 @@ tuning <- function (occ, env, bg.coords, occ.grp, bg.grp, method, algorithm, arg
                     avg.diff.AUC = Mean.AUC.DIFF, var.diff.AUC = Var.AUC.DIFF,
                     avg.test.orMTP = Mean.ORmin, var.test.orMTP = Var.ORmin,
                     avg.test.or10pct = Mean.OR10, var.test.or10pct = Var.OR10, aicc,
-                    avg.test.kappa = Mean.KAPPA, var.test.kappa = Var.KAPPA)
+                    avg.test.kappa = Mean.KAPPA, var.test.kappa = Var.KAPPA,
+                    avg.test.max.f1 = Mean.MAX.F1, var.test.max.f1 = Var.MAX.F1)
   if (bin.output == TRUE) {
-    res <- as.data.frame(cbind(res, AUC.TEST, AUC.DIFF, OR10, ORmin, KAPPA))
+    res <- as.data.frame(cbind(res, AUC.TEST, AUC.DIFF, OR10, ORmin, KAPPA, MAX.F1))
   }
 
   if (rasterPreds==TRUE) {
