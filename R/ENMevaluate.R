@@ -3,7 +3,7 @@ ENMevaluate <- function (occ, env, bg.coords = NULL, occ.grp = NULL, bg.grp = NU
                          categoricals = NULL, n.bg = 10000, method = NULL, algorithm = 'maxnet', 
                          overlap = FALSE, aggregation.factor = c(2, 2), kfolds = NA, bin.output = FALSE,
                          clamp = TRUE, rasterPreds = TRUE, parallel = FALSE, numCores = NULL, 
-                         progbar = TRUE, updateProgress = FALSE, path = "output", outputformat = "raw", ...) {
+                         progbar = TRUE, updateProgress = FALSE, path = NULL, outputformat = "raw", ...) {
 
   ptm <- proc.time()
   if (is.null(method)) {
