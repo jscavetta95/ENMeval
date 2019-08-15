@@ -11,8 +11,8 @@ modelTune.maxentJar <- function(pres, bg, env, nk, group.data, args.i, userArgs,
   p <- c(rep(1, nrow(pres)), rep(0, nrow(bg)))
   
   # build the full model from all the data
-  full.mod <- dismo::maxent(x, p, args = c(args.i, userArgs), removeDuplicates = TRUE,
-                            factors = categoricals, path = paste(path,args.i))  
+  full.mod <- dismo::maxent(x, p, args = c(args.i, userArgs), removeDuplicates = TRUE, factors = categoricals, 
+                            path = paste(path,paste0('[',args.i,']',collapse=' ')))
   pred.args <- c(paste0("outputformat=",outputformat), ifelse(clamp==TRUE, "doclamp=true", "doclamp=false"))
   
   # if rasters selected, predict for the full model
