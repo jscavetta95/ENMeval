@@ -3,7 +3,7 @@ ENMevaluate <- function (occ, env, bg.coords = NULL, occ.grp = NULL, bg.grp = NU
                          categoricals = NULL, n.bg = 10000, method = NULL, algorithm = 'maxnet', 
                          overlap = FALSE, aggregation.factor = c(2, 2), kfolds = NA, bin.output = FALSE,
                          clamp = TRUE, rasterPreds = TRUE, parallel = FALSE, numCores = NULL, 
-                         progbar = TRUE, updateProgress = FALSE, ...) {
+                         progbar = TRUE, updateProgress = FALSE, path = "output", outputformat = "raw", ...) {
 
   ptm <- proc.time()
   if (is.null(method)) {
@@ -72,7 +72,7 @@ ENMevaluate <- function (occ, env, bg.coords = NULL, occ.grp = NULL, bg.grp = NU
   results <- tuning(occ, env, bg.coords, occ.grp, bg.grp, method, algorithm,
                     args, args.lab, categoricals, aggregation.factor,
                     kfolds, bin.output, clamp, alg, rasterPreds, parallel, 
-                    numCores, progbar, updateProgress, userArgs)
+                    numCores, progbar, updateProgress, userArgs, path, outputformat)
   
   # if niche overlap selected, calculate and add the resulting matrix to results
   if (overlap == TRUE) {

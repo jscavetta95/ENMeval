@@ -3,7 +3,7 @@
 #################################################
 
 modelTune.maxentJar <- function(pres, bg, env, nk, group.data, args.i, userArgs, 
-                                rasterPreds, clamp, categoricals) {
+                                rasterPreds, clamp, categoricals, path, outputformat) {
   
   # set up data: x is coordinates of occs and bg, 
   # p is vector of 0's and 1's designating occs and bg
@@ -11,9 +11,9 @@ modelTune.maxentJar <- function(pres, bg, env, nk, group.data, args.i, userArgs,
   p <- c(rep(1, nrow(pres)), rep(0, nrow(bg)))
   
   # build the full model from all the data
-  full.mod <- dismo::maxent(x, p, args = c(args.i, userArgs),
-                            factors = categoricals)  
-  pred.args <- c("outputformat=raw", ifelse(clamp==TRUE, "doclamp=true", "doclamp=false"))
+  full.mod <- dismo::maxent(x, p, args = c(args.i, userArgs), removeDuplicates = TRUE,
+                            factors = categoricals, path = path)  
+  pred.args <- c(paste0("outputformat=",outputformat), ifelse(clamp==TRUE, "doclamp=true", "doclamp=false"))
   
   # if rasters selected, predict for the full model
   if (rasterPreds == TRUE) {

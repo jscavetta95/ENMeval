@@ -7,7 +7,7 @@
 tuning <- function (occ, env, bg.coords, occ.grp, bg.grp, method, algorithm, args,
                     args.lab, categoricals, aggregation.factor, kfolds, bin.output,
                     clamp, alg, rasterPreds, parallel, numCores, progbar, updateProgress,
-                    userArgs) {
+                    userArgs, path, outputformat) {
 
   # extract predictor variable values at coordinates for occs and bg
   pres <- as.data.frame(extract(env, occ))
@@ -96,7 +96,7 @@ tuning <- function (occ, env, bg.coords, occ.grp, bg.grp, method, algorithm, arg
       out <- foreach(i = seq_len(length(args)),
                      .packages = c("dismo", "raster", "ENMeval", "rJava")) %dopar% {
                        modelTune.maxentJar(pres, bg, env, nk, group.data, args[[i]],
-                                           userArgs, rasterPreds, clamp)
+                                           userArgs, rasterPreds, clamp, categoricals, path, outputformat)
                      }
     }
     stopCluster(c1)
@@ -121,7 +121,7 @@ tuning <- function (occ, env, bg.coords, occ.grp, bg.grp, method, algorithm, arg
                                      rasterPreds, clamp)
       } else if (algorithm == 'maxent.jar') {
         out[[i]] <- modelTune.maxentJar(pres, bg, env, nk, group.data, args[[i]],
-                                        userArgs, rasterPreds, clamp)
+                                        userArgs, rasterPreds, clamp, categoricals, path, outputformat)
       }
     }
     if (progbar==TRUE) close(pb)
